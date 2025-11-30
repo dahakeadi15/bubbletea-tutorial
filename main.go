@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	tea "github.com/charmbracelet/bubbletea"
 )
@@ -36,7 +37,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "down", "j":
 			m.cursor++
 
-		case "enter", "space":
+		case "enter", " ":
 			_, ok := m.selected[m.cursor]
 			if ok {
 				delete(m.selected, m.cursor)
@@ -59,7 +60,7 @@ func (m model) View() string {
 
 		checked := " "
 		if _, ok := m.selected[i]; ok {
-			checked = ">"
+			checked = "x"
 		}
 
 		s += fmt.Sprintf("%s [%s] %s\n", cursor, checked, choice)
@@ -71,5 +72,9 @@ func (m model) View() string {
 }
 
 func main() {
-	fmt.Println("Hello, World!")
+	p := tea.NewProgram(initialModel())
+	if _, err := p.Run(); err != nil {
+		fmt.Printf("Alas, there's been an error: %v", err)
+		os.Exit(1)
+	}
 }
