@@ -7,12 +7,14 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
+// application State
 type model struct {
 	choices  []string
 	cursor   int
 	selected map[int]struct{}
 }
 
+// define initialstate of the application
 func initialModel() model {
 	return model{
 		choices:  []string{"Buy Apples", "Buy Dates", "Buy IceCream"},
@@ -20,10 +22,13 @@ func initialModel() model {
 	}
 }
 
+// Init can return an initial `Cmd` that can perform some initial I/O
 func (m model) Init() tea.Cmd {
 	return nil
 }
 
+// Update is called when things happen, it checks what happened and updates the
+// model accordingly. Sometimes it returns a `Cmd` to make more things happen.
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
@@ -49,6 +54,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return m, nil
 }
 
+// Renders the UI of the application
 func (m model) View() string {
 	s := "What should we buy at the market?\n\n"
 
