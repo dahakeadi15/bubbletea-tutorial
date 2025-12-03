@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
@@ -62,11 +63,18 @@ func (m model) View() string {
 		return fmt.Sprintf("\nWe had some trouble: %v\n\n", m.err)
 	}
 
-	s := fmt.Sprintf("Checking %s ...", url)
+	s := fmt.Sprintf("Checking %s ... ", url)
 
 	if m.status > 0 {
 		s += fmt.Sprintf("%d %s!", m.status, http.StatusText(m.status))
 	}
 
 	return "\n" + s + "\n\n"
+}
+
+func main() {
+	if _, err := tea.NewProgram(model{}).Run(); err != nil {
+		fmt.Printf("Uh oh, there was an error: %v\n", err)
+		os.Exit(1)
+	}
 }
