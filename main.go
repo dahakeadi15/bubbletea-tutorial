@@ -32,3 +32,9 @@ func checkServer() tea.Msg {
 }
 
 func (e errMsg) Error() string { return e.err.Error() }
+
+// We don't call the function bubbletea runtime will do that when the
+// time is right
+func (m model) Init() tea.Cmd {
+	return checkServer
+}
